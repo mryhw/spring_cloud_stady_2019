@@ -1,0 +1,25 @@
+server:
+  port: 2244
+spring:
+  application:
+    name: ms-config-client-2244           # 项目名称
+  profiles:
+    active: dev                           # 启动的环境
+  cloud:
+    config:
+      fail-fast: true                     # 失败快速响应
+      name: ms-config-client-2244, mysql  # 要加载的配置文件所在的路径（如果没有二级文件则是要加载配置文件）
+      profile: ${spring.profiles.active}  # 要加载的版本 对应 spring.cloud.config.name 的版本
+      label: master                       # 对应的 git 的环境
+      #      uri: http://localhost:3344/        # 配置中心url（与discovery 2选1）
+      discovery:                          # 配置 拉取的 服务（从 eureka 中发现）
+        enabled: true
+        service-id: ms-config-server-local
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    instance-id: ms-config-client-2244    # 防止 Eureka web页面报错 ，主机服务名称修改
+    prefer-ip-address: true     # 访问路径可以显示IP地址，（左下角IP显示）
+

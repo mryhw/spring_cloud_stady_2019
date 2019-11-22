@@ -1,0 +1,30 @@
+server:
+  port: 9527
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #      defaultZone: http://localhost:7001/eureka
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    instance-id: ms-zuul-gateway-9527.com    # 防止 Eureka web页面报错 ，主机服务名称修改
+    prefer-ip-address: true                  # 访问路径可以显示IP地址，（左下角IP显示）
+
+
+info:
+  app.name: atguigu-microservicecloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+spring:
+  application:
+    name: ms-zuul-gateway-9527
+
+zuul:
+  routes:
+    mydept:
+      serviceId: ms-provider
+      path: /myProvider/**
+  ignored-services: "*"             # 没有此配置，用服务名也可以访问
+  prefix: /ms                       # router 统一前缀
